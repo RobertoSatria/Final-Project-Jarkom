@@ -1,0 +1,141 @@
+#S1
+vtp mode server 
+vtp domain group_07
+vtp pass BR_Ganteng
+vlan 10
+name Engineer
+vlan 20
+name Finance
+vlan 30
+name Telco
+vlan 40
+name RnD
+vlan 99
+name Native
+int r fa0/1-2
+channel-group 1 mode passive
+exit
+int port-channel 1
+sw mode trunk
+sw trunk allow vlan 10,20,30,40,99
+sw trunk native vlan 99
+int r fa0/3-4
+channel-group 4 mode desirable
+exit
+int port-channel 4
+sw mode trunk
+sw trunk allow vlan 10,20,30,40,99
+sw trunk native vlan 99
+int f0/24
+sw mode acc
+sw acc vlan 10
+spanning-tree mode rapid-pvst
+spanning-tree vlan 10,20,30,40,99 root primary
+
+
+
+#S2
+vtp mode client 
+vtp domain group_07
+vtp pass BR_Ganteng
+int r fa0/1-2
+channel-group 1 mode active
+exit
+int port-channel 1
+sw mode trunk
+sw trunk allow vlan 10,20,30,40,99
+sw trunk native vlan 99
+int r fa0/7-8
+channel-group 2 mode auto
+exit
+int port-channel 2
+sw mode trunk
+sw trunk allow vlan 10,20,30,40,99
+sw trunk native vlan 99
+int f0/24
+sw mode acc
+sw acc vlan 20
+spanning-tree mode rapid-pvst
+spanning-tree vlan 10,20,30,40,99
+
+
+
+#S3
+vtp mode client 
+vtp domain group_07
+vtp pass BR_Ganteng
+int r fa0/7-8
+channel-group 2 mode desirable
+exit
+int port-channel 2
+sw mode trunk
+sw trunk allow vlan 10,20,30,40,99
+sw trunk native vlan 99
+int r fa0/5-6
+channel-group 3 mode passive
+exit
+int port-channel 3
+sw mode trunk
+sw trunk allow vlan 10,20,30,40,99
+sw trunk native vlan 99
+int f0/24
+sw mode acc
+sw acc vlan 40
+spanning-tree mode rapid-pvst
+spanning-tree vlan 10,20,30,40,99
+
+
+#S4
+vtp mode client 
+vtp domain group_07
+vtp pass BR_Ganteng
+int r fa0/5-6
+channel-group 3 mode active
+exit
+int port-channel 3
+sw mode trunk
+sw trunk allow vlan 10,20,30,40,99
+sw trunk native vlan 99
+int r fa0/3-4
+channel-group 4 mode auto
+exit
+int port-channel 4
+sw mode trunk
+sw trunk allow vlan 10,20,30,40,99
+sw trunk native vlan 99
+int f0/24
+sw mode acc
+sw acc vlan 30
+spanning-tree mode rapid-pvst
+spanning-tree vlan 10,20,30,40,99
+
+#JAKARTA
+int g0/1.10
+enc dot 10
+ip add 192.168.16.1 255.255.254.0
+int g0/1.20
+enc dot 20
+ip add 192.168.18.1 255.255.255.0
+int g0/1.30
+enc dot 30
+ip add 192.168.19.1 255.255.255.128
+int g0/1.40
+enc dot 40
+ip add 192.168.19.129 255.255.255.192
+int g0/2.10
+enc dot 10
+ip add 192.168.16.3 255.255.254.0
+exit
+int g0/2.20
+enc dot 20
+ip add 192.168.18.3 255.255.255.0
+int g0/2.30
+enc dot 30
+ip add 192.168.19.3 255.255.255.128
+int g0/2.40
+enc dot 40
+ip add 192.168.19.131 255.255.255.192
+< ga tau perlu engga yg native
+int g0/1.99
+enc dot 99
+ip add 192.168.99.1 255.255.255.0 > 
