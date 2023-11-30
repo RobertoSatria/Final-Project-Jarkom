@@ -1,5 +1,8 @@
 # Final-Project-Jarkom
-Kelompok 7
--Satrio Jati Pamungkas
--Kamal Makarim Iskandar
--Kevin Naufal Aryanto
+Group 7 Member : 
+
+Satrio Jati Pamungkas
+
+Kamal Makarim Iskandar
+
+Kevin Naufal Aryanto
