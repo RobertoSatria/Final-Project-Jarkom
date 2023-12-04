@@ -115,7 +115,39 @@ sw acc vlan 30
 spanning-tree mode rapid-pvst
 spanning-tree vlan 10,20,30,40,99
 
+
+#S5
+vtp mode client 
+vtp domain group_07
+vtp pass BR_Ganteng
+int r fa0/13-14
+channel-group 5 mode active
+exit
+int port-channel 5
+sw mode trunk
+sw trunk allow vlan 10,20,30,40,99
+sw trunk native vlan 99
+int r fa0/15-16
+channel-group 6 mode auto
+exit
+int port-channel 6
+sw mode trunk
+sw trunk allow vlan 10,20,30,40,99
+sw trunk native vlan 99
+spanning-tree mode rapid-pvst
+spanning-tree vlan 10,20,30,40,99
+int g0/1
+sw mode trunk
+sw trunk all vlan 10,20,30,40,99
+sw trunk native vlan 99
+no sh
+
+
 #JAKARTA
+int g0/1
+ip add 20.20.16.1 255.255.255.248
+ip helper-address 10.10.17.2
+no sh
 int g0/1.10
 enc dot 10
 ip add 192.168.16.1 255.255.254.0
@@ -151,11 +183,11 @@ ip helper-address 10.10.17.2
 int g0/1.99
 ip helper-address 10.10.17.2
 int s0/0/0
-ip add 172.168.34.2 255.255.255.252
+ip add 172.168.13.2 255.255.255.252
 ip helper-address 10.10.17.2
 no sh
 int s0/0/1
-ip add 172.168.13.2 255.255.255.252
+ip add 172.168.34.2 255.255.255.252
 ip helper-address 10.10.17.2
 no sh
 router eigrp 1
@@ -163,6 +195,7 @@ no auto-summary
 passive default
 no passive s0/0/0
 no passive s0/0/1
+net 10.10.17.0 0.0.0.7
 net 172.168.13.0 0.0.0.3
 net 172.168.34.0 0.0.0.3
 net 192.168.16.0 0.0.1.255
