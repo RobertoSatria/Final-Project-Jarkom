@@ -132,6 +132,57 @@ int g0/2.10
 enc dot 10
 ip add 192.168.16.3 255.255.254.0
 exit
+---------------------------------
+int s0/0/0
+ip add 172.168.10.1 255.255.255.0
+no sh
+int s0/1/0 
+ip add 172.168.11.1 255.255.255.0
+no sh
+----------------------------------
+int g0/1.10
+ip helper-address 10.10.17.2
+int g0/1.20
+ip helper-address 10.10.17.2
+int g0/1.30
+ip helper-address 10.10.17.2
+int g0/1.40
+ip helper-address 10.10.17.2
+int g0/1.99
+ip helper-address 10.10.17.2
+int s0/0/0
+ip add 172.168.34.2 255.255.255.252
+ip helper-address 10.10.17.2
+no sh
+int s0/0/1
+ip add 172.168.13.2 255.255.255.252
+ip helper-address 10.10.17.2
+no sh
+router eigrp 1
+no auto-summary
+passive default
+no passive s0/0/0
+no passive s0/0/1
+net 172.168.13.0 0.0.0.3
+net 172.168.34.0 0.0.0.3
+net 192.168.16.0 0.0.1.255
+net 192.168.18.0 0.0.0.255
+net 192.168.19.0 0.0.0.127
+net 192.168.19.128 0.0.0.63
+<<< int s0/0/0
+ip helper-address 10.10.17.2
+int s0/1/0
+ip helper-address 10.10.17.2
+router rip
+ver 2 
+no auto-summary
+network 172.168.10.0
+network 172.168.11.0
+network 192.168.16.0
+network 192.168.18.0
+network 192.168.19.0
+network 192.168.19.128 >>>>
+<
 int g0/2.20
 enc dot 20
 ip add 192.168.18.3 255.255.255.0
@@ -140,7 +191,7 @@ enc dot 30
 ip add 192.168.19.3 255.255.255.128
 int g0/2.40
 enc dot 40
-ip add 192.168.19.131 255.255.255.192
+ip add 192.168.19.131 255.255.255.192 > 
 < ga tau perlu engga yg native
 int g0/1.99
 enc dot 99
@@ -260,23 +311,50 @@ sw acc vlan 30
 spanning-tree mode rapid-pvst
 spanning-tree vlan 10,20,30,40,99
 
-#JAKARTA
+#SINGAPURA
+int g0/1
+ip add 30.30.16.1 255.255.255.248
+no sh
 int g0/1.10
 enc dot 10
-ip add 192.168.16.1 255.255.254.0
+ip add 192.168.19.193 255.255.255.192
+ip helper-address 10.10.17.2
 int g0/1.20
 enc dot 20
-ip add 192.168.18.1 255.255.255.0
+ip add 192.168.20.1 255.255.255.192
+ip helper-address 10.10.17.2
 int g0/1.30
 enc dot 30
-ip add 192.168.19.1 255.255.255.128
+ip add 192.168.20.65 255.255.255.224
+ip helper-address 10.10.17.2
 int g0/1.40
 enc dot 40
-ip add 192.168.19.129 255.255.255.192
-int g0/2.10
-enc dot 10
-ip add 192.168.16.3 255.255.254.0
-exit
+ip add 192.168.20.97 255.255.255.224
+ip helper-address 10.10.17.2
+int g0/1.99
+enc dot 99
+ip add 192.168.99.1 255.255.255.0
+ip helper-address 10.10.17.2
+int s0/0/0
+ip add 172.168.34.1 255.255.255.252
+ip helper-address 10.10.17.2
+no sh
+int s0/0/1
+ip add 172.168.41.1 255.255.255.252
+ip helper-address 10.10.17.2
+no sh
+router eigrp 1
+no auto-summary
+passive default
+no passive s0/0/0
+no passive s0/0/1
+net 172.168.34.0 0.0.0.3
+net 172.168.41.0 0.0.0.3
+net 192.168.19.192 0.0.0.63
+net 192.168.20.0 0.0.0.63
+net 192.168.20.64 0.0.0.31
+net 192.168.20.96 0.0.0.31
+<
 int g0/2.20
 enc dot 20
 ip add 192.168.18.3 255.255.255.0
@@ -286,6 +364,7 @@ ip add 192.168.19.3 255.255.255.128
 int g0/2.40
 enc dot 40
 ip add 192.168.19.131 255.255.255.192
+>
 < ga tau perlu engga yg native
 int g0/1.99
 enc dot 99
@@ -454,6 +533,7 @@ no sh
 int g0/1.10
 enc dot 10
 ip add 192.168.20.129 255.255.255.192
+ip helper-address 10.10.17.2
 int g0/1.20
 enc dot 20
 ip add 192.168.20.193 255.255.255.192
@@ -463,6 +543,26 @@ ip add 192.168.21.1 255.255.255.224
 int g0/1.40
 enc dot 40
 ip add 192.168.21.33 255.255.255.240
+int s0/0/0
+ip add 172.168.13.1 255.255.255.252
+ip helper-address 10.10.17.2
+no sh
+int s0/0/1 
+ip add 172.168.41.2 255.255.255.252
+ip helper-address 10.10.17.2
+no sh
+router eigrp 1
+no auto-summary
+passive default
+no passive s0/0/0
+no passive s0/0/1
+net 172.168.13.0 0.0.0.3
+net 172.168.41.0 0.0.0.3
+net 192.168.20.128 0.0.0.63
+net 192.168.20.192 0.0.0.63
+net 192.168.21.0 0.0.0.31
+net 192.168.21.32 0.0.0.15
+< yang no auto-summary ga tau buth apa kaga>
 <--- yang g0/2 gagal, blm nemu reason> 
 int g0/2.10
 enc dot 10
@@ -477,6 +577,7 @@ ip add 192.168.19.3 255.255.255.128
 int g0/2.40
 enc dot 40
 ip add 192.168.19.131 255.255.255.192
+>
 < komen dibawah perlu tapi masih blm tahu kenapa ya guys >
 int g0/1.99
 enc dot 99
